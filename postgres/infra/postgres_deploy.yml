@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: ara-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+        - env:
+          - name: "POSTGRES_DB"
+            value: "test"
+          - name: "POSTGRES_USER"
+            value: "me"
+          - name: "POSTGRES_PASSWORD"
+            value: "password"
+          image: postgres:13
+          imagePullPolicy: IfNotPresent
+          name: db
+          ports:
+            - name: db
+              containerPort: 5432
+              protocol: TCP
