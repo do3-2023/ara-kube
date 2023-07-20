@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: me
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: password
+  api:
+    image: asstra/api:latest
+    restart: always
+    expose:
+      - 8080
+  webapp:
+    image: asstra/webapp:latest
+    restart: always
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
