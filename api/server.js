@@ -1,14 +1,15 @@
 "use strict";
 
 const express = require("express");
+const env = process.env
 
 // Database
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  user: "me",
-  host: "db",
-  database: "test",
-  password: "password",
+  user: env.POSTGRES_USER,
+  host: env.POSTGRES_HOST || "db",
+  database: env.POSTGRES_DB,
+  password: env.POSTGRES_PASSWORD,
   port: 5432,
 });
 
