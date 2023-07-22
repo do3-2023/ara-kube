@@ -4,10 +4,9 @@ services:
   db:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: me
-      POSTGRES_DB: test
-      POSTGRES_PASSWORD: password
+    env_file:
+      - .env
+
   api:
     build:
       context: ./api
@@ -15,12 +14,15 @@ services:
     restart: always
     expose:
       - 8080
+    env_file:
+      - .env
+
   webapp:
     build:
       context: ./webapp
       dockerfile: Dockerfile
     restart: always
-    expose:
-      - 3000
     ports:
       - 3000:3000
+    environment:
+      - API_URL=api:8080
