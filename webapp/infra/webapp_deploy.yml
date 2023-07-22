@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: ara-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: webapp
+  template:
+    metadata:
+      labels:
+        name: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: asstra/webapp:test
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+        env:
+          - name: "API_URL"
+            value: "api.ara-back:8080"
