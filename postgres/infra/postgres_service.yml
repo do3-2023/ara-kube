@@ -5,7 +5,7 @@ metadata:
   namespace: ara-db
 spec:
   ports:
-  - name: db
+  - name: tcp
     port: 5432
     protocol: TCP
     targetPort: 5432
