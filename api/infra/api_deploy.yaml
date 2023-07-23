@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: asstra/api:test
+        image: asstra/api:latest
         ports:
           - name: tcp
             containerPort: 8080
