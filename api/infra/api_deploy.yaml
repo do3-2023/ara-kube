@@ -7,37 +7,40 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      name: api
   template:
     metadata:
       labels:
-        app: api
+        name: api
     spec:
       containers:
       - name: api
         image: asstra/api:test
         ports:
-          - name: api
+          - name: tcp
             containerPort: 8080
             protocol: TCP
         env:
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: database
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: user
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: password
-            - name: POSTGRES_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: api
-                  key: host
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: api
+                key: database
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: api
+                key: user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: api
+                key: password
+          - name: POSTGRES_HOST
+            value: "db.ara-db"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
