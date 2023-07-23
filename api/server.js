@@ -20,6 +20,10 @@ const PORT = 8080;
 const app = express();
 
 app.get("/", (req, res) => {
+  res.status(200).send('OK')
+});
+
+app.get("/healthz", (req, res) => {
   pool.query("SELECT NOW()", (err, result) => {
     if (err) {
       res.status(500).send(err);
@@ -29,9 +33,8 @@ app.get("/", (req, res) => {
   });
   
 });
-
-app.get("/healthz", (req, res) => {
-  res.status(200).send('OK')
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
 });
 
 app.listen(PORT, () => {
