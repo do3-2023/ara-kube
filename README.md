@@ -46,8 +46,14 @@ PS : These variables are present in the [.env.example](.env.example) file and ar
 
 ## Launch the project locally
 
-The project is ready to use locally, you just need docker installed !
-After cloning the project, go to the `ara-kube` folder  and type :
+The project is ready to use locally, you just need [Docker](https://docs.docker.com/get-docker/) installed !
+Here are the steps :
+
+1. Clone the project
+2. Go to ara-kube folder
+3. Rename `.env.example` file in `.env`
+4. Launch the project using :
+
 ```
 docker compose -f docker-compose.prod.yml up
 ```
