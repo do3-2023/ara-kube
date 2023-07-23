@@ -16,7 +16,7 @@ services:
       - .env
 
   webapp:
-    image: asstra/webapp:latest
+    image: asstra/webapp:local
     restart: always
     ports:
       - 3000:3000
