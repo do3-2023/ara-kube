@@ -24,3 +24,9 @@ spec:
         env:
           - name: "API_URL"
             value: "api.ara-back:8080"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
