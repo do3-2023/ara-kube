@@ -7,7 +7,7 @@ spec:
   selector:
     name: api
   ports:
-    - name: 8080-tcp
+    - name: tcp
       port: 8080
       targetPort: 8080
   type: ClusterIP
