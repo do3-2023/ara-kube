@@ -13,6 +13,29 @@ const pool = new Pool({
   port: 5432,
 });
 
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('Connected to PostgreSQL database');
+
+  // Execute the SQL script to create the "users" table
+  client.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INT8 NOT NULL PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      number TEXT NOT NULL
+    );
+  `, (err, result) => {
+    release();
+    if (err) {
+      return console.error('Error executing query', err.stack);
+    }
+    console.log('Created users table successfully');
+  });
+});
+
 // Constants
 const PORT = 8080;
 
@@ -31,8 +54,28 @@ app.get("/healthz", (req, res) => {
       res.status(200).send(`Hello world ! It's ${ result.rows[0].now } !!`);
     }
   });
-  
 });
+
+app.get("/users", (req, res) => {
+  pool.query("SELECT * FROM users", (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(result.rows);
+    }
+  });
+});
+
+app.get("/adduser", (req, res) => {
+  pool.query(`INSERT INTO users (name, email, number) VALUES (${req.body.name},${req.body.email},${req.body.number})`, (err, result) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(`User added`);
+    }
+  });
+});
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
 });
